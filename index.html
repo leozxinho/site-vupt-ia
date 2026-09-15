@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vupt IA · Tecnologia sob medida</title>
+<meta name="description" content="Conte o seu projeto de tecnologia para a Vupt IA e receba uma resposta pessoal.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+(function () {
+  try {
+    var savedTheme = localStorage.getItem('vupt-theme');
+    var preferredTheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    var theme = savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : preferredTheme;
+    document.documentElement.setAttribute('data-theme', theme);
+  } catch (e) {}
+})();
+</script>
+<style>
+  :root {
+    --bg: #0a0c16;
+    --line: rgba(255,255,255,0.09);
+    --line-strong: rgba(255,255,255,0.18);
+    --hover-border: rgba(255,255,255,0.33);
+    --text: #f2f3f8;
+    --text-muted: #adb4c9;
+    --surface: rgba(255,255,255,0.03);
+    --surface-hover: rgba(255,255,255,0.04);
+    --blue: #3d5aff;
+    --purple: #9b3ff0;
+    --focus: #7ea2ff;
+    --glow-color: rgba(139,63,240,0.28);
+    --logo-word: #f2f3f8;
+    color-scheme: dark;
+  }
+
+  :root[data-theme="light"] {
+    --bg: #f6f7fb;
+    --line: rgba(12,14,28,0.08);
+    --line-strong: rgba(12,14,28,0.15);
+    --hover-border: rgba(12,14,28,0.35);
+    --text: #12142a;
+    --text-muted: #545a72;
+    --surface: rgba(12,14,28,0.035);
+    --surface-hover: rgba(12,14,28,0.055);
+    --focus: #2946d6;
+    --glow-color: rgba(139,63,240,0.14);
+    --logo-word: #12142a;
+    color-scheme: light;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color .2s ease, color .2s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    body { transition: none; }
+  }
+
+  h1, h2, .display {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  a { color: inherit; }
+
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ---------- Nav ---------- */
+  header.nav {
+    position: relative;
+    z-index: 5;
+    padding: 28px 0 0;
+  }
+  .nav-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand-logo {
+    height: 36px;
+    width: auto;
+    display: block;
+    overflow: visible;
+  }
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    font-size: 0.92rem;
+    color: var(--text-muted);
+  }
+  .nav-links a { text-decoration: none; transition: color .15s ease; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .menu-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid var(--line-strong);
+    border-radius: 9px;
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+  }
+  .menu-toggle svg { width: 19px; height: 19px; }
+  .menu-icon-close { display: none; }
+  .menu-toggle[aria-expanded="true"] .menu-icon-open { display: none; }
+  .menu-toggle[aria-expanded="true"] .menu-icon-close { display: block; }
+  .mobile-menu {
+    display: none;
+    max-width: 1080px;
+    margin: 14px auto 0;
+    padding: 14px 28px;
+    border: 1px solid var(--line-strong);
+    border-radius: 12px;
+    background: var(--bg);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, .18);
+  }
+  .mobile-menu a {
+    padding: 10px 4px;
+    color: var(--text-muted);
+    font-size: .95rem;
+    text-decoration: none;
+  }
+  .mobile-menu a:hover { color: var(--text); }
+  .mobile-menu.is-open { display: grid; }
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid var(--line-strong);
+    border-radius: 9px;
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    transition: border-color .15s ease, background .15s ease, transform .15s ease;
+  }
+  .theme-toggle:hover {
+    border-color: var(--hover-border);
+    background: var(--surface-hover);
+    transform: translateY(-1px);
+  }
+  .theme-icon { width: 18px; height: 18px; }
+  .icon-sun { display: none; }
+  :root[data-theme="light"] .icon-moon { display: none; }
+  :root[data-theme="light"] .icon-sun { display: block; }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  .logo-sprite {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 76px 0 88px;
+  }
+
+  .hero-grid {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 28px;
+    align-items: center;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.2rem, 4.6vw, 3.4rem);
+    line-height: 1.12;
+  }
+
+  .hero-grad {
+    background: linear-gradient(100deg, var(--blue) 15%, var(--purple) 85%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  :root[data-theme="light"] .hero-grad {
+    background: linear-gradient(100deg, #2643d6 15%, #7c1fd6 85%);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  .hero p.lede {
+    margin-top: 22px;
+    max-width: 46ch;
+    font-size: 1.06rem;
+    color: var(--text-muted);
+  }
+
+  .cta-row {
+    margin-top: 36px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 22px;
+    border-radius: 9px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: transform .15s ease, border-color .15s ease, background .15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+
+  .btn-primary {
+    background: linear-gradient(100deg, var(--blue), var(--purple));
+    color: #fff;
+  }
+  .btn-primary:hover { filter: brightness(1.08); }
+
+  .btn-ghost {
+    border-color: var(--line-strong);
+    color: var(--text);
+    background: transparent;
+  }
+  .btn-ghost:hover { border-color: var(--hover-border); background: var(--surface-hover); }
+
+  .btn svg { width: 17px; height: 17px; flex-shrink: 0; }
+
+  .btn[aria-disabled="true"] {
+    pointer-events: none;
+    opacity: 0.45;
+  }
+
+  /* Decorative circuit graphic */
+  .hero-art {
+    position: relative;
+    z-index: 1;
+    aspect-ratio: 1 / 1;
+    min-height: 340px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-art svg { width: 100%; height: 100%; max-width: 420px; }
+
+  .glow {
+    position: absolute;
+    width: 620px;
+    height: 620px;
+    top: -260px;
+    right: -220px;
+    background: radial-gradient(circle at center, var(--glow-color), transparent 65%);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .path-draw {
+    stroke-dasharray: 340;
+    stroke-dashoffset: 340;
+    animation: draw 1.6s ease forwards .3s;
+  }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .path-draw { animation: none; stroke-dashoffset: 0; }
+    html { scroll-behavior: auto; }
+  }
+
+  /* ---------- Section shared ---------- */
+  section { padding: 72px 0; border-top: 1px solid var(--line); }
+
+  /* ---------- Benefits ---------- */
+  .benefits {
+    padding: 0 0 72px;
+    border-top: 0;
+  }
+  .benefit-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .benefit-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 14px;
+    align-items: start;
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--surface);
+  }
+  .benefit-icon {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(61,90,255,.18), rgba(155,63,240,.2));
+    color: var(--focus);
+  }
+  .benefit-icon svg { width: 18px; height: 18px; }
+  .benefit-card h3 {
+    margin: 0 0 4px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: .98rem;
+  }
+  .benefit-card p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: .86rem;
+    line-height: 1.45;
+  }
+
+  .eyebrow-free-heading {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    max-width: 22ch;
+  }
+
+  .section-head {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 40px;
+    margin-bottom: 48px;
+  }
+  .section-head p {
+    color: var(--text-muted);
+    max-width: 46ch;
+    margin: 0;
+  }
+
+  /* ---------- Project brief wizard ---------- */
+  .brief {
+    max-width: 760px;
+    padding: 32px;
+    border: 1px solid var(--line-strong);
+    border-radius: 16px;
+    background: var(--surface);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, .08);
+  }
+  .brief-progress {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+  .brief-progress-bar {
+    flex: 1;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--line-strong);
+    overflow: hidden;
+  }
+  .brief-progress-bar span {
+    display: block;
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(100deg, var(--blue), var(--purple));
+    transition: width .25s ease;
+  }
+  .brief-progress-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .brief-step { display: none; }
+  .brief-step.is-active { display: block; animation: fadeIn .25s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  @media (prefers-reduced-motion: reduce) {
+    .brief-step.is-active { animation: none; }
+  }
+
+  .brief-step label {
+    display: block;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    margin-bottom: 12px;
+  }
+  .brief-hint {
+    margin: -6px 0 14px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+
+  .brief input[type="text"],
+  .brief textarea {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    border-radius: 9px;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.98rem;
+    padding: 13px 15px;
+    resize: vertical;
+  }
+  .brief input[type="text"]:focus,
+  .brief textarea:focus { border-color: var(--focus); }
+
+  .chip-group { display: flex; flex-wrap: wrap; gap: 10px; }
+  .chip {
+    padding: 10px 18px;
+    border-radius: 999px;
+    border: 1px solid var(--line-strong);
+    background: transparent;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .chip:hover { border-color: var(--hover-border); }
+  .chip[aria-pressed="true"] {
+    border-color: transparent;
+    background: linear-gradient(100deg, var(--blue), var(--purple));
+    color: #fff;
+  }
+
+  .brief-summary {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin: 0 0 24px;
+  }
+
+  .brief-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 32px;
+  }
+  .brief-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .brief-error {
+    color: #ff9b9b;
+    font-size: 0.87rem;
+    margin-top: 12px;
+    min-height: 1.2em;
+  }
+
+  /* ---------- Contact ---------- */
+  .contact-panel {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  .contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 20px;
+    border: 1px solid var(--line-strong);
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--text);
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .contact-item:hover { border-color: var(--hover-border); background: var(--surface-hover); }
+  .contact-item svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--text-muted); }
+  .contact-item .meta { display: flex; flex-direction: column; gap: 2px; }
+  .contact-item .label { font-size: 0.82rem; color: var(--text-muted); }
+  .contact-item .value { font-size: 1rem; font-weight: 500; }
+
+  /* ---------- Footer ---------- */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 32px 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+  footer .brand-logo { height: 22px; opacity: 0.85; }
+  .footer-meta {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    flex-wrap: wrap;
+  }
+  .footer-links {
+    display: flex;
+    gap: 16px;
+  }
+  .footer-links a { color: var(--text-muted); text-decoration: none; }
+  .footer-links a:hover { color: var(--text); }
+
+  @media (max-width: 760px) {
+    header.nav { padding-top: 18px; }
+    .wrap { padding-left: 20px; padding-right: 20px; }
+    .brand-logo { height: 32px; }
+    .nav-actions { gap: 10px; }
+    .nav-actions .nav-links { display: none; }
+    .menu-toggle { display: inline-flex; }
+    .mobile-menu { margin-left: 20px; margin-right: 20px; padding-left: 16px; padding-right: 16px; }
+    .hero { padding: 56px 0 68px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 20px; }
+    .hero-art { display: flex; min-height: 230px; margin-top: 4px; }
+    .hero-art svg { max-width: 280px; }
+    .section-head { grid-template-columns: 1fr; gap: 18px; margin-bottom: 32px; }
+    .benefits { padding-bottom: 56px; }
+    .benefit-grid { grid-template-columns: 1fr; }
+    .brief { padding: 22px 18px; border-radius: 13px; }
+    .brief-progress { gap: 10px; }
+    .contact-panel { grid-template-columns: 1fr; }
+    footer { align-items: flex-start; }
+    .footer-meta { gap: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<svg class="logo-sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="logo-gradient" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#176dff"/>
+      <stop offset="1" stop-color="#7520ee"/>
+    </linearGradient>
+    <symbol id="vupt-logo" viewBox="0 0 640 180">
+      <g fill="url(#logo-gradient)">
+        <path d="M4 52h31l-12 14H0zM0 82h52L39 97H0zM5 113h47l-13 15H0z"/>
+        <path d="m29 151 59-83H45l17-22h55L94 77h27l-50 74z"/>
+        <path d="m76 151 76-144-45 26h14L83 83H65L48 101h27l-31 50z"/>
+      </g>
+      <path d="m48 143 32-43 24-14 27-39" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <g fill="#fff">
+        <circle cx="80" cy="100" r="6"/><circle cx="104" cy="86" r="6"/><circle cx="131" cy="47" r="6"/>
+      </g>
+      <text x="176" y="122" class="logo-word" fill="var(--logo-word)" font-family="Arial, Helvetica, sans-serif" font-size="88" font-weight="800" letter-spacing="-4">Vupt</text>
+      <text x="482" y="122" fill="#6724e9" font-family="Arial, Helvetica, sans-serif" font-size="88" font-weight="800" letter-spacing="-4">IA</text>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="nav">
+  <div class="wrap nav-row">
+    <div class="brand">
+      <svg class="brand-logo" viewBox="0 0 640 180" role="img" aria-label="Vupt IA">
+        <use href="#vupt-logo"></use>
+      </svg>
+    </div>
+    <div class="nav-actions">
+      <nav class="nav-links">
+        <a href="#orcamento">Peça um orçamento</a>
+        <a href="#contato">Contato</a>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Ativar tema claro" title="Ativar tema claro">
+        <svg class="theme-icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <path d="M20.5 15.2A8.5 8.5 0 0 1 8.8 3.5 8.5 8.5 0 1 0 20.5 15.2Z"/>
+        </svg>
+        <svg class="theme-icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+        </svg>
+        <span class="sr-only" id="themeToggleText">Ativar tema claro</span>
+      </button>
+    </div>
+  </div>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="mobileNav" aria-label="Abrir menu">
+      <svg class="menu-icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="menu-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <nav class="mobile-menu" id="mobileNav" aria-label="Navegação móvel">
+    <a href="#orcamento">Peça um orçamento</a>
+    <a href="#contato">Contato</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="glow" aria-hidden="true"></div>
+  <div class="wrap hero-grid">
+    <div>
+      <h1>
+        Tem um projeto de tecnologia<br>
+        <span class="hero-grad">em mente?</span>
+      </h1>
+      <p class="lede">
+        Conte o que você precisa no formulário abaixo e receba uma resposta pessoal
+        dizendo se é possível e como fazer.
+      </p>
+    </div>
+
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 300 300" fill="none">
+        <defs>
+          <linearGradient id="g1" x1="0" y1="300" x2="300" y2="0">
+            <stop offset="0" stop-color="#3d5aff"/>
+            <stop offset="1" stop-color="#9b3ff0"/>
+          </linearGradient>
+        </defs>
+        <path class="path-draw" d="M40 250 L110 250 L150 180 L190 250 L260 60" stroke="url(#g1)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="110" cy="250" r="4.5" fill="#3d5aff"/>
+        <circle cx="150" cy="180" r="4.5" fill="#6a4bf5"/>
+        <circle cx="190" cy="250" r="4.5" fill="#9b3ff0"/>
+        <circle cx="260" cy="60" r="4.5" fill="#9b3ff0"/>
+        <g style="stroke:var(--line-strong)" stroke-width="1">
+          <line x1="20" y1="120" x2="90" y2="120"/>
+          <line x1="20" y1="150" x2="70" y2="150"/>
+          <line x1="20" y1="180" x2="80" y2="180"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="benefits" aria-label="Por que falar com a Vupt IA">
+  <div class="wrap benefit-grid">
+    <article class="benefit-card">
+      <span class="benefit-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 5 6v5c0 4.5 2.9 8.1 7 10 4.1-1.9 7-5.5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+      </span>
+      <div><h3>Resposta pessoal</h3><p>Você fala direto com quem entende do projeto.</p></div>
+    </article>
+    <article class="benefit-card">
+      <span class="benefit-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m12 3 1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3Z"/><path d="m19 16 .8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8L19 16Z"/></svg>
+      </span>
+      <div><h3>Sob medida</h3><p>Uma solução pensada para a sua necessidade real.</p></div>
+    </article>
+    <article class="benefit-card">
+      <span class="benefit-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/></svg>
+      </span>
+      <div><h3>Rápido e sem compromisso</h3><p>Leva menos de 2 minutos para contar a sua ideia.</p></div>
+    </article>
+  </div>
+</section>
+
+<section id="orcamento">
+  <div class="wrap">
+    <div class="section-head" style="grid-template-columns: 1fr;">
+      <h2 class="eyebrow-free-heading">Peça seu orçamento</h2>
+      <p>Conte sobre o seu projeto nos passos abaixo. São 5 passos rápidos, leva menos de 2 minutos. No final, é só enviar por e-mail ou Instagram e você recebe uma resposta.</p>
+    </div>
+
+    <div class="brief">
+      <div class="brief-progress">
+        <div class="brief-progress-bar"><span id="briefProgressFill" style="width:20%"></span></div>
+        <span class="brief-progress-label" id="briefProgressLabel">Passo 1 de 5</span>
+      </div>
+
+      <form id="briefForm" novalidate>
+        <div class="brief-step is-active" data-step="1">
+          <label for="briefName">Como podemos te chamar? <span style="color:var(--text-muted); font-weight:400;">(opcional)</span></label>
+          <input type="text" id="briefName" placeholder="Seu nome">
+        </div>
+
+        <div class="brief-step" data-step="2">
+          <label for="briefType">Em poucas palavras, o que é o seu projeto?</label>
+          <input type="text" id="briefType" placeholder="Ex: um sistema para controlar meus pedidos">
+        </div>
+
+        <div class="brief-step" data-step="3">
+          <label for="briefDescription">Descreva o que você precisa</label>
+          <p class="brief-hint">Vale incluir o que o projeto deve fazer, quem vai usar e alguma referência, se tiver.</p>
+          <textarea id="briefDescription" rows="6" placeholder="Ex: preciso de um site para minha loja de roupas, com catálogo de produtos e botão de pedido pelo WhatsApp."></textarea>
+        </div>
+
+        <div class="brief-step" data-step="4">
+          <label>Orçamento estimado</label>
+          <div class="chip-group" role="group" aria-label="Orçamento estimado" data-group="budget">
+            <button type="button" class="chip" aria-pressed="false" data-value="Até R$1.000">Até R$1.000</button>
+            <button type="button" class="chip" aria-pressed="false" data-value="R$1.000 a R$3.000">R$1.000 a R$3.000</button>
+            <button type="button" class="chip" aria-pressed="false" data-value="R$3.000 a R$10.000">R$3.000 a R$10.000</button>
+            <button type="button" class="chip" aria-pressed="false" data-value="Acima de R$10.000">Acima de R$10.000</button>
+            <button type="button" class="chip" aria-pressed="false" data-value="Ainda não sei">Ainda não sei</button>
+          </div>
+        </div>
+
+        <div class="brief-step" data-step="5">
+          <label>Prazo desejado</label>
+          <div class="chip-group" role="group" aria-label="Prazo desejado" data-group="deadline">
+            <button type="button" class="chip" aria-pressed="false" data-value="Sem pressa">Sem pressa</button>
+            <button type="button" class="chip" aria-pressed="false" data-value="Até 1 mês">Até 1 mês</button>
+            <button type="button" class="chip" aria-pressed="false" data-value="Urgente">Urgente</button>
+          </div>
+        </div>
+
+        <div class="brief-step" data-step="6">
+          <label>Confira antes de enviar</label>
+          <pre class="brief-summary" id="briefSummary"></pre>
+          <div class="cta-row">
+            <a class="btn btn-primary" id="briefEmailBtn" href="mailto:oliveirxl@gmail.com" aria-disabled="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>
+              Enviar por e-mail
+            </a>
+            <button type="button" class="btn btn-ghost" id="briefCopyBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.6"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+              Copiar e abrir Instagram
+            </button>
+          </div>
+          <p id="briefConfirm" style="color:var(--text-muted); font-size:0.88rem; margin-top:14px; min-height:1.2em;"></p>
+        </div>
+
+        <div class="brief-nav">
+          <button type="button" class="btn btn-ghost" id="briefBack" disabled>Voltar</button>
+          <button type="button" class="btn btn-primary" id="briefNext">Próximo</button>
+        </div>
+        <p class="brief-error" id="briefError" role="alert" aria-live="polite"></p>
+      </form>
+      <p style="color:var(--text-muted); font-size:0.88rem; margin-top:8px;">
+        Prefere ir direto? <a href="#contato" style="color:var(--text); text-decoration:underline;">Fale por Instagram ou e-mail</a>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="contato">
+  <div class="wrap contact-panel">
+    <div>
+      <h2 class="eyebrow-free-heading">Vamos conversar sobre o seu projeto</h2>
+      <p style="color:var(--text-muted); margin-top:16px; max-width:44ch;">
+        Interessou? Descreva o projeto que você tem em mente e o orçamento que planeja investir, e envie pelo Instagram ou por e-mail. A resposta costuma ser rápida.
+      </p>
+      <p style="color:var(--text-muted); font-size:0.88rem; margin-top:14px;">
+        Prefere um passo a passo? <a href="#orcamento" style="color:var(--text); text-decoration:underline;">Use o formulário guiado</a>.
+      </p>
+    </div>
+
+    <div class="contact-list">
+      <a class="contact-item" href="https://www.instagram.com/vupt.ia/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.6"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+        <span class="meta">
+          <span class="label">Instagram</span>
+          <span class="value">@vupt.ia</span>
+        </span>
+      </a>
+      <a class="contact-item" href="mailto:oliveirxl@gmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>
+        <span class="meta">
+          <span class="label">E-mail</span>
+          <span class="value">oliveirxl@gmail.com</span>
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">
+  <div class="brand">
+    <svg class="brand-logo" viewBox="0 0 640 180" role="img" aria-label="Vupt IA">
+      <use href="#vupt-logo"></use>
+    </svg>
+  </div>
+  <div class="footer-meta">
+    <span>© 2026 Vupt IA. Tecnologia sob medida.</span>
+    <nav class="footer-links" aria-label="Links do rodapé">
+      <a href="https://www.instagram.com/vupt.ia/" target="_blank" rel="noopener">Instagram</a>
+      <a href="mailto:oliveirxl@gmail.com">E-mail</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var themeToggle = document.getElementById('themeToggle');
+  var themeToggleText = document.getElementById('themeToggleText');
+  var menuToggle = document.getElementById('menuToggle');
+  var mobileNav = document.getElementById('mobileNav');
+
+  function setTheme(theme, persist) {
+    document.documentElement.setAttribute('data-theme', theme);
+    var nextAction = theme === 'light' ? 'Ativar tema escuro' : 'Ativar tema claro';
+    themeToggle.setAttribute('aria-label', nextAction);
+    themeToggle.setAttribute('title', nextAction);
+    themeToggleText.textContent = nextAction;
+    if (persist) {
+      try { localStorage.setItem('vupt-theme', theme); } catch (e) {}
+    }
+  }
+
+  setTheme(document.documentElement.getAttribute('data-theme') || 'dark', false);
+  themeToggle.addEventListener('click', function () {
+    var currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    setTheme(currentTheme === 'light' ? 'dark' : 'light', true);
+  });
+
+  function closeMobileMenu() {
+    mobileNav.classList.remove('is-open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    menuToggle.setAttribute('aria-label', 'Abrir menu');
+  }
+
+  menuToggle.addEventListener('click', function () {
+    var isOpen = mobileNav.classList.toggle('is-open');
+    menuToggle.setAttribute('aria-expanded', String(isOpen));
+    menuToggle.setAttribute('aria-label', isOpen ? 'Fechar menu' : 'Abrir menu');
+  });
+  mobileNav.querySelectorAll('a').forEach(function (link) {
+    link.addEventListener('click', closeMobileMenu);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeMobileMenu();
+  });
+
+  var form = document.getElementById('briefForm');
+  var steps = Array.prototype.slice.call(form.querySelectorAll('.brief-step'));
+  var totalDataSteps = 5;
+  var current = 1;
+
+  var state = { name: '', projectType: '', description: '', budget: '', deadline: '' };
+
+  var progressFill = document.getElementById('briefProgressFill');
+  var progressLabel = document.getElementById('briefProgressLabel');
+  var backBtn = document.getElementById('briefBack');
+  var nextBtn = document.getElementById('briefNext');
+  var errorEl = document.getElementById('briefError');
+  var nameInput = document.getElementById('briefName');
+  var typeInput = document.getElementById('briefType');
+  var descInput = document.getElementById('briefDescription');
+  var summaryEl = document.getElementById('briefSummary');
+  var emailBtn = document.getElementById('briefEmailBtn');
+  var copyBtn = document.getElementById('briefCopyBtn');
+  var confirmEl = document.getElementById('briefConfirm');
+
+  form.addEventListener('submit', function (e) { e.preventDefault(); });
+
+  function setupChipGroup(groupName, multi) {
+    var group = form.querySelector('[data-group="' + groupName + '"]');
+    var chips = Array.prototype.slice.call(group.querySelectorAll('.chip'));
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        var value = chip.getAttribute('data-value');
+        if (multi) {
+          var idx = state[groupName].indexOf(value);
+          if (idx === -1) {
+            state[groupName].push(value);
+            chip.setAttribute('aria-pressed', 'true');
+          } else {
+            state[groupName].splice(idx, 1);
+            chip.setAttribute('aria-pressed', 'false');
+          }
+        } else {
+          state[groupName] = value;
+          chips.forEach(function (c) { c.setAttribute('aria-pressed', c === chip ? 'true' : 'false'); });
+        }
+        errorEl.textContent = '';
+      });
+    });
+  }
+  setupChipGroup('budget', false);
+  setupChipGroup('deadline', false);
+
+  nameInput.addEventListener('input', function () { state.name = nameInput.value.trim(); });
+  typeInput.addEventListener('input', function () { state.projectType = typeInput.value.trim(); errorEl.textContent = ''; });
+  descInput.addEventListener('input', function () { state.description = descInput.value.trim(); errorEl.textContent = ''; });
+
+  function render() {
+    steps.forEach(function (step) {
+      step.classList.toggle('is-active', Number(step.getAttribute('data-step')) === current);
+    });
+
+    var progressStep = Math.min(current, totalDataSteps);
+    progressFill.style.width = ((progressStep / totalDataSteps) * 100) + '%';
+    progressLabel.textContent = current <= totalDataSteps
+      ? 'Passo ' + current + ' de ' + totalDataSteps
+      : 'Revisão final';
+
+    backBtn.disabled = current === 1;
+    nextBtn.style.display = current === 6 ? 'none' : 'inline-flex';
+    nextBtn.textContent = current === totalDataSteps ? 'Ver resumo' : 'Próximo';
+    errorEl.textContent = '';
+
+    if (current === 6) buildSummary();
+  }
+
+  function validateCurrent() {
+    if (current === 2 && state.projectType.length < 3) {
+      errorEl.textContent = 'Conte em poucas palavras o que é o seu projeto.';
+      return false;
+    }
+    if (current === 3 && state.description.length < 10) {
+      errorEl.textContent = 'Conte um pouco mais sobre o projeto, com pelo menos algumas palavras.';
+      return false;
+    }
+    if (current === 4 && !state.budget) {
+      errorEl.textContent = 'Selecione uma faixa de orçamento.';
+      return false;
+    }
+    if (current === 5 && !state.deadline) {
+      errorEl.textContent = 'Selecione um prazo desejado.';
+      return false;
+    }
+    return true;
+  }
+
+  function buildSummary() {
+    var lines = [
+      'Novo pedido de orçamento pelo site da Vupt IA',
+      '',
+      'Nome: ' + (state.name || 'Não informado'),
+      'Tipo de projeto: ' + (state.projectType || 'Não informado'),
+      'Orçamento estimado: ' + (state.budget || 'Não informado'),
+      'Prazo desejado: ' + (state.deadline || 'Não informado'),
+      '',
+      'Descrição do projeto:',
+      state.description
+    ];
+    var text = lines.join('\n');
+    summaryEl.textContent = text;
+
+    var subject = 'Pedido de orçamento' + (state.name ? ' de ' + state.name : '');
+    emailBtn.setAttribute('href', 'mailto:oliveirxl@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(text));
+    emailBtn.removeAttribute('aria-disabled');
+    confirmEl.textContent = '';
+
+    emailBtn.onclick = function () {
+      confirmEl.textContent = 'Seu e-mail já deve estar abrindo, com tudo preenchido. Se não abrir, use "Copiar e abrir Instagram" abaixo.';
+    };
+
+    function selectSummaryText() {
+      var range = document.createRange();
+      range.selectNodeContents(summaryEl);
+      var selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+
+    copyBtn.onclick = function () {
+      function afterCopy(manual) {
+        copyBtn.textContent = manual ? 'Texto selecionado, use Ctrl+C' : 'Copiado! Abrindo Instagram...';
+        confirmEl.textContent = manual
+          ? 'Não deu pra copiar automaticamente. O texto acima já está selecionado: use Ctrl+C (ou Cmd+C) e cole na DM do Instagram.'
+          : 'Mensagem copiada. Cole em uma DM para @vupt.ia no Instagram.';
+        setTimeout(function () {
+          window.open('https://www.instagram.com/vupt.ia/', '_blank', 'noopener');
+          copyBtn.textContent = 'Copiar e abrir Instagram';
+        }, manual ? 1500 : 700);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () { afterCopy(false); }).catch(function () {
+          selectSummaryText();
+          afterCopy(true);
+        });
+      } else {
+        selectSummaryText();
+        afterCopy(true);
+      }
+    };
+  }
+
+  nextBtn.addEventListener('click', function () {
+    if (current <= totalDataSteps && !validateCurrent()) return;
+    current = Math.min(current + 1, 6);
+    render();
+  });
+
+  backBtn.addEventListener('click', function () {
+    current = Math.max(current - 1, 1);
+    render();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

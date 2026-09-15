@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 180" role="img" aria-labelledby="title desc">
+  <title id="title">Vupt IA</title>
+  <desc id="desc">Símbolo de velocidade e circuitos ao lado do nome Vupt IA.</desc>
+  <defs>
+    <linearGradient id="logo-gradient" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#176dff"/>
+      <stop offset="1" stop-color="#7520ee"/>
+    </linearGradient>
+  </defs>
+  <g fill="url(#logo-gradient)">
+    <path d="M4 52h31l-12 14H0zM0 82h52L39 97H0zM5 113h47l-13 15H0z"/>
+    <path d="m29 151 59-83H45l17-22h55L94 77h27l-50 74z"/>
+    <path d="m76 151 76-144-45 26h14L83 83H65L48 101h27l-31 50z"/>
+  </g>
+  <path d="m48 143 32-43 24-14 27-39" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#fff">
+    <circle cx="80" cy="100" r="6"/><circle cx="104" cy="86" r="6"/><circle cx="131" cy="47" r="6"/>
+  </g>
+  <text x="176" y="122" fill="#202632" font-family="Arial, Helvetica, sans-serif" font-size="88" font-weight="800" letter-spacing="-4">Vupt</text>
+  <text x="482" y="122" fill="#6724e9" font-family="Arial, Helvetica, sans-serif" font-size="88" font-weight="800" letter-spacing="-4">IA</text>
+</svg>
